@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unicode Visualization</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <style>
+    a:link {
+      color: black;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: black;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: blue;
+      text-decoration: none;
+    }
+
+    a:active {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <div class="text-center ma-8">
+      <h2 class="">Unicode Visualization</h2>
+    </div>
+      <div id="input-form">
+        <div class="card bg-light border-secondary">
+          <div class="card-body">
+            <h4 class="card-title">Input a Unicode Glyph ('Character') or Choose an Example</h4>
+            <div class="row">
+              <div class="col-3">
+                <div class="input-group w-75">
+                  <input type="text" class="form-control" id="glyph" name="glyph" maxlength="5" placeholder="Unicode Glyphs...">
+                  <button class="btn btn-outline-secondary" type="button" id="clear-button">x</button>
+                </div>
+              </div>
+              <div class="col-9">
+                <span id="examples">
+                  <button id="example-button-1" class="py-button" type="submit" py-click="fillTextField('a')">a</button>
+                  <button id="example-button-2" class="py-button" type="submit" py-click="fillTextField('ä')">ä (legacy)</button>
+                  <button id="example-button-3" class="py-button" type="submit" py-click="fillTextField('ä')">ä (combined)</button>
+                  <button id="example-button-4" class="py-button" type="submit" py-click="fillTextField('참')">참 (legacy)</button>
+                  <button id="example-button-5" class="py-button" type="submit" py-click="fillTextField('참')">참 (combined)</button>
+                  <button id="example-button-6" class="py-button" type="submit" py-click="fillTextField('👩🏾‍🎤')">👩🏾‍🎤</button>
+                  <button id="example-button-7" class="py-button" type="submit" py-click="fillTextField('𐐷')">𐐷</button>
+                  <button id="example-button-8" class="py-button" type="submit" py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
+                  <button id="example-button-9" class="py-button" type="submit" py-click="fillTextField('ﷺ')">ﷺ</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div id="character-list"></div>
+    <div class="card bg-light border-secondary my-3">
+      <div class="card-body" id="unicode-info">
+        <h4 class="card-title">Unicode Information</h4>
+        <p>"Unicode is an information technology standard for the consistent encoding, representation, and handling of text expressed
+          in most of the world's writing systems. The standard, which is maintained by the Unicode Consortium, defines as of the current
+          version (15.0) 149,186 characters covering 161 modern and historic scripts, as well as symbols, emoji (including in colors),
+          and non-visual control and formatting codes.</p>
+        <p>The Unicode Standard, however, includes more than just the base code. Alongside the character encodings, the Consortium's
+          official publication includes a wide variety of details about the scripts and how to display them: normalization rules,
+          decomposition, collation, rendering, and bidirectional text display order for multilingual texts, and so on. The Standard
+          also includes reference data files and visual charts to help developers and designers correctly implement the repertoire.</p>
+        <p>Unicode can be stored using several different encodings, which translate the character codes into sequences of bytes.
+          The Unicode standard defines three and several other encodings exist, all in practice variable-length encodings. The most
+          common encodings are the ASCII-compatible UTF-8, the ASCII-incompatible UTF-16 (compatible with the obsolete UCS-2), and
+          the Chinese Unicode encoding standard GB18030 which is not an official Unicode standard but is used in China and implements
+          Unicode fully." <cite><a target="_blank" href="https://en.wikipedia.org/wiki/Unicode">Wikipedia: Unicode</a></cite></p>
+        <p>Unicode stores code points for characters in 17 planes containing 65,536 characters each. The maximum number of characters
+          is reduced <a target="_blank" href="https://stackoverflow.com/a/5928054/18073555">by 2,048 surrogates and 66 non-characters</a>: </p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mn>17</mn>
+            <mrow>
+             <mi mathvariant="italic">planes</mi>
+             <mo stretchy="false">⋅</mo>
+             <mn>65,536</mn>
+            </mrow>
+            <mi mathvariant="italic">code</mi>
+            <mrow>
+             <mi mathvariant="italic">points</mi>
+             <mo stretchy="false">−</mo>
+             <mn>2,048</mn>
+            </mrow>
+            <mrow>
+             <mi mathvariant="italic">surrogates</mi>
+             <mo stretchy="false">−</mo>
+             <mn>66</mn>
+            </mrow>
+            <mrow>
+             <mi mathvariant="italic">noncharacters</mi>
+             <mo stretchy="false">=</mo>
+             <mn>1,111,998</mn>
+            </mrow>
+            <mi mathvariant="italic">characters</mi>
+           </mrow>
+         </math>
+         <p>Further web links:</p>
+          <ul>
+            <li><a href="https://www.unicode.org/reports/tr17/#CharactersVsGlyphs" target="_blank">Unicode Consortium: Characters vs. Glyphs</a></li>
+            <li><a href="https://unicode.link" target="_blank">Unicode Visualizer</a></li>
+            <li><a href="https://www.compart.com/de/unicode/" target="_blank">https://www.compart.com/de/unicode/</a></li>
+          </ul>
+      </div>
+    </div-->
+    <template id="character-template">
+      <div class="character">
+        <div class="row my-3">
+          <div class="col col-2">
+            <div class="card bg-light border-secondary">
+              <div class="card-body text-center">
+                <h4 class="card-title">Character</h4>
+                <div class="character-info"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-5">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Code Point</h4>
+                <div class="codepoint-info"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-5">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Character Encoding</h4>
+                <div class="encoding-info"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <py-config>
+  </py-config>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <py-script>
+    # info: https://realpython.com/pyscript-python-in-browser/#disclaimer-pyscript-is-an-experimental-project
+
+    import unicodedata
+
+    from js import document, console
+    from pyodide import create_proxy
+    from pyscript import Element
+
+    # categories and their abbreviation come directly from the Unicode standard
+    categories = { 'Lu': 'Letter, uppercase',
+                   'Ll': 'Letter, lowercase',
+                   'Lt': 'Letter, titlecase',
+                   'Lm': 'Letter, modifier',
+                   'Lo': 'Letter, other',
+                   'Mn': 'Mark, nonspacing',
+                   'Mc': 'Mark, spacing combining',
+                   'Me': 'Mark, enclosing',
+                   'Nd': 'Number, decimal digit',
+                   'Nl': 'Number, letter',
+                   'No': 'Number, other',
+                   'Pc': 'Punctuation, connector',
+                   'Pd': 'Punctuation, dash',
+                   'Ps': 'Punctuation, open',
+                   'Pe': 'Punctuation, close',
+                   'Pi': 'Punctuation, initial quote (may behave like Ps or Pe depending on usage)',
+                   'Pf': 'Punctuation, final quote (may behave like Ps or Pe depending on usage)',
+                   'Po': 'Punctuation, other',
+                   'Sm': 'Symbol, math',
+                   'Sc': 'Symbol, currency',
+                   'Sk': 'Symbol, modifier',
+                   'So': 'Symbol, other',
+                   'Zs': 'Separator, space',
+                   'Zl': 'Separator, line',
+                   'Zp': 'Separator, paragraph',
+                   'Cc': 'Other, control',
+                   'Cf': 'Other, format',
+                   'Cs': 'Other, surrogate',
+                   'Co': 'Other, private use',
+                   'Cn': 'Other, not assigned (including noncharacters)'}
+
+    def getCharacterInformation(c):
+      return f'<p class="display-3">{c}</p>'
+
+    def getCharacterCodePoints(c):
+      link = f'https://www.fileformat.info/info/unicode/char/{ord(c):06x}/index.htm'
+      cp = f'<p>Code point: {ord(c):x}<sub>16</sub> = {ord(c)}<sub>10</sub> = <a target="_blank" href="{link}">U+{ord(c):06x}</a></p>'
+      if ord(c) <= 0xffff:
+        bmp = '<p>Code Point belongs to the <a target="_blank" href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane">Basic Multilingual Plane</a></p>'
+      elif ord(c) <= 0x1ffff:
+        bmp = '<p>Code Point belongs to the <a target="_blank" href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Supplementary_Multilingual_Plane">Supplementary Multilingual Plane</a></p>'
+      elif ord(c) <= 0x2ffff:
+        bmp = '<p>Code Point belongs to the <a target="_blank" href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Supplementary_Ideographic_Plane">Supplementary Ideographic Plane</a></p>'
+      elif ord(c) <= 0x3ffff:
+        bmp = '<p>Code Point belongs to the <a target="_blank" href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Tertiary_Ideographic_Plane">Tertiary Ideographic Plane</a></p>'
+      else:
+        bmp = ''
+      info = f'<p>Name: {unicodedata.name(c)}</p><p><a href="https://www.unicode.org/versions/Unicode15.0.0/ch04.pdf#G134153" target="_blank">Category</a>: {categories[unicodedata.category(c)]}</p>'
+      norm = '<p>Code Point is normalized according to the <a href="https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization" target="_blank">Normalization Form Canonical Decomposition (NFD)</a>.</p>' if unicodedata.is_normalized('NFD', c) else ''
+      return cp + info + bmp + norm
+
+    def getCharacterEncoding(c):
+      utf8 = list(c.encode(encoding='utf_8')) # bin(int(c.encode(encoding='utf-8').hex(), base=16))
+      utf8_binary = ''
+      for x in utf8:
+        utf8_bits = f'{x:08b}'
+        if utf8_bits.startswith('0'):
+          title = 'ASCII code points start with a zero'
+        elif utf8_bits.startswith('110'):
+          title = 'First byte of two byte code point starts with 110xxxxx'
+        elif utf8_bits.startswith('1110'):
+          title = 'First byte of three byte code point starts with 1110xxxx'
+        elif utf8_bits.startswith('11110'):
+          title = 'First byte of four byte code point starts with 11110xxx'
+        elif utf8_bits.startswith('10'):
+          title = 'Non-starting bytes of multi-byte code points begin with 10xxxxxx'
+        else:
+          title = ''
+        utf8_binary += f'<span class="border mx-1 font-monospace fw-bold" title="{title}">{x:08b}</span>'
+      utf16be = list(c.encode(encoding='utf_16be'))
+      utf16be_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf16be])
+      utf16le = list(c.encode(encoding='utf_16'))
+      utf16le_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold" title="Byte Order Mark">{x:08b}</span>' for x in utf16le[:2]])
+      utf16le_binary += ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf16le[2:]])
+      utf32 = list(c.encode(encoding='utf_32be'))
+      utf32_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf32])
+      s = f"""<p>UTF-8:<br/>{utf8_binary}</p>
+             <p>UTF-16BE (<a target="_blank" href="https://en.wikipedia.org/wiki/UTF-16#Byte-order_encoding_schemes">Default if BOM is missing</a>):<br/>{utf16be_binary}</p>
+             <p>UTF-16LE (with <a target="_blank" href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a>):<br/>{utf16le_binary}</p>
+             <p>UTF-32BE:<br/>{utf32_binary}</p>
+          """
+      return s
+
+    def handle_glyph(e):
+      clearCharacters()
+      glyph = Element('glyph').element.value
+      character_list = Element('character-list')
+      character_template = Element('character-template').select('.character', from_content=True)
+      for c in glyph:
+        console.log(f"Character: {unicodedata.name(c)}")
+        new_character = character_template.clone(f'character-{ord(c):06}')
+        new_character.select('.character-info').element.innerHTML = getCharacterInformation(c)
+        new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
+        new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
+        character_list.element.appendChild(new_character.element)
+
+    def fillTextField(glyph):
+      console.log(glyph)
+      input_field = Element('glyph')
+      input_field.element.value = glyph
+      handle_glyph(None)
+
+    def clearCharacters(event=None):
+      if event:
+        input_field = Element('glyph')
+        input_field.element.value = ''
+      character_list = Element('character-list')
+      character_list.clear()
+      character_list.element.innerHTML = ''
+
+    document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
+    document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
+
+  </py-script>
+</body>
+</html>
