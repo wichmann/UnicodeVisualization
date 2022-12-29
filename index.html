@@ -35,7 +35,7 @@
 <body>
   <div class="container" role="main">
     <div class="text-center ma-8">
-      <h2 class="">Unicode Visualization</h2>
+      <h2>Unicode Visualization</h2>
     </div>
       <div id="input-form">
         <div class="card bg-light border-secondary">
@@ -45,22 +45,28 @@
               <div class="col-3">
                 <div class="input-group w-75">
                   <input type="text" class="form-control" id="glyph" name="glyph" maxlength="10" placeholder="Unicode Glyphs...">
-                  <button class="btn btn-outline-secondary" type="button" id="clear-button">x</button>
+                  <button class="btn btn-outline-secondary" type="button" id="clear-button">🗙</button>
                 </div>
               </div>
-              <div class="col-9">
+              <div class="col-8">
                 <span id="examples">
-                  <button id="example-button-1" class="py-button" type="submit" py-click="fillTextField('a')">a</button>
-                  <button id="example-button-2" class="py-button" type="submit" py-click="fillTextField('ä')">ä (legacy)</button>
-                  <button id="example-button-3" class="py-button" type="submit" py-click="fillTextField('ä')">ä (combined)</button>
-                  <button id="example-button-4" class="py-button" type="submit" py-click="fillTextField('참')">참 (legacy)</button>
-                  <button id="example-button-5" class="py-button" type="submit" py-click="fillTextField('참')">참 (combined)</button>
-                  <button id="example-button-6" class="py-button" type="submit" py-click="fillTextField('👩🏾‍🎤')">👩🏾‍🎤</button>
-                  <button id="example-button-7" class="py-button" type="submit" py-click="fillTextField('𐐷')">𐐷</button>
-                  <button id="example-button-8" class="py-button" type="submit" py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
-                  <button id="example-button-9" class="py-button" type="submit" py-click="fillTextField('ﷺ')">ﷺ</button>
-                  <button id="example-button-9" class="py-button" type="submit" py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
+                  <button id="example-button-1" class="btn btn-info" type="submit" py-click="fillTextField('a')">a</button>
+                  <button id="example-button-2" class="btn btn-info" type="submit" py-click="fillTextField('ä')">ä (legacy)</button>
+                  <button id="example-button-3" class="btn btn-info" type="submit" py-click="fillTextField('ä')">ä (combined)</button>
+                  <button id="example-button-4" class="btn btn-info" type="submit" py-click="fillTextField('참')">참 (legacy)</button>
+                  <button id="example-button-5" class="btn btn-info" type="submit" py-click="fillTextField('참')">참 (combined)</button>
+                  <button id="example-button-6" class="btn btn-info" type="submit" py-click="fillTextField('👩🏾‍🎤')">👩🏾‍🎤</button>
+                  <button id="example-button-7" class="btn btn-info" type="submit" py-click="fillTextField('𐐷')">𐐷</button>
+                  <button id="example-button-8" class="btn btn-info" type="submit" py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
+                  <button id="example-button-9" class="btn btn-info" type="submit" py-click="fillTextField('ﷺ')">ﷺ</button>
+                  <button id="example-button-9" class="btn btn-info" type="submit" py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
                 </span>
+              </div>
+              <div class="col-auto ms-auto">
+                <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchBinHex(None)">
+                  <div class="font-monospace lh-1">c7</div>
+                  <div class="font-monospace lh-1">1e</div>
+                </button>
               </div>
             </div>
           </div>
@@ -128,7 +134,7 @@
       </div>
     </div>
     <div class="text-center" id="impressum">
-        <p><a href="https://github.com/wichmann/UnicodeVisualization" target="_blank">https://github.com/wichmann/UnicodeVisualization</a></p>
+        <p class="font-monospace"><a href="https://github.com/wichmann/UnicodeVisualization" target="_blank">https://github.com/wichmann/UnicodeVisualization</a></p>
     </div>
 
     <template id="character-template">
@@ -300,10 +306,6 @@
         new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
         new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
         character_list.element.appendChild(new_character.element)
-      # create click handler to switch from binary to hex
-      elements = document.querySelectorAll('.codeunit')
-      for e in elements:
-        document.getElementById(e.id).addEventListener("click", create_proxy(switchBinHex))
 
     def fillTextField(glyph):
       console.log(glyph)
@@ -324,6 +326,7 @@
       global show_binary
       show_binary = not show_binary
       handle_glyph(None)
+      document.getElementById('switch-binary-button').innerHTML = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>' if show_binary else '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
 
     document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
     document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
