@@ -174,6 +174,9 @@
     from pyodide import create_proxy
     from pyscript import Element
 
+    # global flag for choosing binary or hex representation
+    show_binary = True
+
     # categories and their abbreviation come directly from the Unicode standard
     categories = { 'Lu': 'Letter, uppercase',
                    'Ll': 'Letter, lowercase',
@@ -226,10 +229,9 @@
       norm = '<p>Code Point is normalized according to the <a href="https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization" target="_blank">Normalization Form Canonical Decomposition (NFD)</a>.</p>' if unicodedata.is_normalized('NFD', c) else ''
       return cp + info + bmp + norm
 
-    def getCharacterEncoding(c):
-      utf8 = list(c.encode(encoding='utf_8')) # bin(int(c.encode(encoding='utf-8').hex(), base=16))
+    def getCharacterEncodingUtf8(c):
       utf8_binary = ''
-      for x in utf8:
+      for x in list(c.encode(encoding='utf_8')):
         utf8_bits = f'{x:08b}'
         if utf8_bits.startswith('0'):
           title = 'ASCII code points start with a zero'
@@ -243,22 +245,46 @@
           title = 'Non-starting bytes of multi-byte code points begin with 10xxxxxx'
         else:
           title = ''
-        utf8_binary += f'<span class="border mx-1 font-monospace fw-bold" title="{title}">{x:08b}</span>'
-      utf16be = list(c.encode(encoding='utf_16be'))
-      utf16be_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf16be])
-      utf16le = list(c.encode(encoding='utf_16'))
-      utf16le_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold" title="Byte Order Mark">{x:08b}</span>' for x in utf16le[:2]])
-      utf16le_binary += ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf16le[2:]])
-      utf32 = list(c.encode(encoding='utf_32be'))
-      utf32_binary = ''.join([f'<span class="border mx-1 font-monospace fw-bold">{x:08b}</span>' for x in utf32])
-      s = f"""<p>UTF-8:<br/>{utf8_binary}</p>
-             <p>UTF-16BE (<a target="_blank" href="https://en.wikipedia.org/wiki/UTF-16#Byte-order_encoding_schemes">Default if BOM is missing</a>):<br/>{utf16be_binary}</p>
-             <p>UTF-16LE (with <a target="_blank" href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a>):<br/>{utf16le_binary}</p>
-             <p>UTF-32BE:<br/>{utf32_binary}</p>
-          """
+        utf8_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
+        utf8_binary += f'<span id="{ord(c):06x}-utf8" class="codeunit border mx-1 font-monospace fw-bold" title="{title}">{utf8_codeunit}</span>'
+      return utf8_binary
+
+    def getCharacterEncodingUtf16be(c):
+      codeunit_list = list(c.encode(encoding='utf_16be'))    
+      utf16be_binary = ''
+      for x in codeunit_list:
+        utf16be_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
+        utf16be_binary += f'<span id="{ord(c):06x}-utf16be" class="codeunit border mx-1 font-monospace fw-bold">{utf16be_codeunit}</span>'
+      return utf16be_binary
+
+    def getCharacterEncodingUtf16le(c):
+      codeunit_list = list(c.encode(encoding='utf_16'))
+      utf16le_binary = ''
+      for i, x in enumerate(codeunit_list):
+        utf16be_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
+        if i < 2:
+          utf16le_binary += f'<span id="{ord(c):06x}-utf16lebom" class="codeunit border mx-1 font-monospace fw-bold" title="Byte Order Mark">{utf16be_codeunit}</span>'
+        else:
+          utf16le_binary += f'<span id="{ord(c):06x}-utf16le" class="codeunit border mx-1 font-monospace fw-bold">{utf16be_codeunit}</span>'
+      return utf16le_binary
+
+    def getCharacterEncodingUtf32(c):
+      codeunit_list = list(c.encode(encoding='utf_32be'))
+      utf32_binary = ''
+      for x in codeunit_list:
+        utf32_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
+        utf32_binary += f'<span id="{ord(c):06x}-utf32" class="codeunit border mx-1 font-monospace fw-bold">{utf32_codeunit}</span>'
+      return utf32_binary
+
+    def getCharacterEncoding(c):
+      s = f"""<p>UTF-8 (8-bit code units):<br/>{getCharacterEncodingUtf8(c)}</p>
+              <p>UTF-16BE (16-bit code units, <a target="_blank" href="https://en.wikipedia.org/wiki/UTF-16#Byte-order_encoding_schemes">default if BOM is missing</a>):<br/>{getCharacterEncodingUtf16be(c)}</p>
+              <p>UTF-16LE (16-bit code units, with <a target="_blank" href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a>):<br/>{getCharacterEncodingUtf16le(c)}</p>
+              <p>UTF-32BE (32-bit code units):<br/>{getCharacterEncodingUtf32(c)}</p>
+           """
       return s
 
-    def handle_glyph(e):
+    def handle_glyph(event):
       clearCharacters()
       glyph = Element('glyph').element.value
       character_list = Element('character-list')
@@ -270,6 +296,10 @@
         new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
         new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
         character_list.element.appendChild(new_character.element)
+      # create click handler to switch from binary to hex
+      elements = document.querySelectorAll('.codeunit')
+      for e in elements:
+        document.getElementById(e.id).addEventListener("click", create_proxy(switchBinHex))
 
     def fillTextField(glyph):
       console.log(glyph)
@@ -284,6 +314,12 @@
       character_list = Element('character-list')
       character_list.clear()
       character_list.element.innerHTML = ''
+
+    def switchBinHex(event):
+      console.log('switching...')
+      global show_binary
+      show_binary = not show_binary
+      handle_glyph(None)
 
     document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
     document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
