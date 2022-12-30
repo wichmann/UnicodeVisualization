@@ -54,25 +54,25 @@
             <div class="col-8">
               <span id="examples">
                 <button id="example-button-1" class="btn btn-info" type="submit"
-                  py-click="fillTextField('a')">a</button>
-                <button id="example-button-2" class="btn btn-info" type="submit" py-click="fillTextField('ä')">ä
-                  (legacy)</button>
-                <button id="example-button-3" class="btn btn-info" type="submit" py-click="fillTextField('ä')">ä
-                  (combined)</button>
-                <button id="example-button-4" class="btn btn-info" type="submit" py-click="fillTextField('참')">참
-                  (legacy)</button>
-                <button id="example-button-5" class="btn btn-info" type="submit" py-click="fillTextField('참')">참
-                  (combined)</button>
-                <button id="example-button-6" class="btn btn-info" type="submit"
-                  py-click="fillTextField('👩🏾‍🎤')">👩🏾‍🎤</button>
+                  py-click="fillTextField('a')" title="ASCII character positioned in the first 128 characters">a</button>
+                <button id="example-button-2" class="btn btn-info" type="submit"
+                  py-click="fillTextField('ä')" title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding">ä (legacy)</button>
+                <button id="example-button-3" class="btn btn-info" type="submit"
+                  py-click="fillTextField('ä')" title="Combination of a ASCII character with an Unicode mark (diaeresis)">ä (combined)</button>
+                <button id="example-button-4" class="btn btn-info" type="submit"
+                  py-click="fillTextField('참')" title="Legacy Hangul character, using three bytes in UTF-8 encoding">참 (legacy)</button>
+                <button id="example-button-5" class="btn btn-info" type="submit"
+                  py-click="fillTextField('참')" title="Combined Hangul character consisting of three separate code points">참 (combined)</button>
                 <button id="example-button-7" class="btn btn-info" type="submit"
-                  py-click="fillTextField('𐐷')">𐐷</button>
+                  py-click="fillTextField('𐃅')" title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding">𐃅</button>
+                <button id="example-button-6" class="btn btn-info" type="submit"
+                  py-click="fillTextField('👩🏾‍🎤')" title="Emoji combining a multiple elements to convey its meaning">👩🏾‍🎤</button>
                 <button id="example-button-8" class="btn btn-info" type="submit"
-                  py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
+                  py-click="fillTextField('द्ध्र्य')" title="Devanagari character combining seven code points to a single grapheme cluster">द्ध्र्य</button>
                 <button id="example-button-9" class="btn btn-info" type="submit"
-                  py-click="fillTextField('ﷺ')">ﷺ</button>
+                  py-click="fillTextField('ﷺ')" title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding">ﷺ</button>
                 <button id="example-button-9" class="btn btn-info" type="submit"
-                  py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
+                  py-click="fillTextField('שָׁלוֹם')" title="The word 'peace' in hebrew, written right-to-left (RTL)">שָׁלוֹם</button>
               </span>
             </div>
             <div class="col-auto ms-auto">
