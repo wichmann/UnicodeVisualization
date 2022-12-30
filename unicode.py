@@ -3,7 +3,7 @@
 import unicodedata
 
 from js import document, console
-from pyodide import create_proxy
+from pyodide.ffi import create_proxy
 from pyscript import Element
 
 
@@ -66,8 +66,9 @@ def getCharacterCodePoints(c):
 
 
 def getCharacterEncodingUtf8(c):
+    codeunit_list = list(c.encode(encoding='utf_8'))
     utf8_binary = ''
-    for x in list(c.encode(encoding='utf_8')):
+    for x in codeunit_list:
         utf8_bits = f'{x:08b}'
         if utf8_bits.startswith('0'):
             title = 'ASCII code points start with a zero'
@@ -81,8 +82,8 @@ def getCharacterEncodingUtf8(c):
             title = 'Non-starting bytes of multi-byte code points begin with 10xxxxxx'
         else:
             title = ''
-    utf8_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
-    utf8_binary += f'<span id="{ord(c):06x}-utf8" class="codeunit border mx-1 font-monospace fw-bold" title="{title}">{utf8_codeunit}</span>'
+        utf8_codeunit = f'{x:08b}' if show_binary else f'0x{x:02x}'
+        utf8_binary += f'<span id="{ord(c):06x}-utf8" class="codeunit border mx-1 font-monospace fw-bold" title="{title}">{utf8_codeunit}</span>'
     return utf8_binary
 
 
