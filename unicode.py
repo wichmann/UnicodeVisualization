@@ -2,13 +2,14 @@
 
 import unicodedata
 
-from js import document, console
+from js import document, console, window
 from pyodide.ffi import create_proxy
 from pyscript import Element
 
 
 # global flag for choosing binary or hex representation
 show_binary = True
+
 
 # categories and their abbreviation come directly from the Unicode standard
 categories = {'Lu': 'Letter, uppercase',
@@ -156,13 +157,35 @@ def clearCharacters(event=None):
     character_list.element.innerHTML = ''
 
 
-def switchBinHex(event):
+def switchNumberSystem(event):
     global show_binary
     show_binary = not show_binary
+    if show_binary:
+        window.localStorage.setItem('NumberSystem', 'bin')
+    else:
+        window.localStorage.setItem('NumberSystem', 'hex')
     handle_glyph(None)
-    document.getElementById(
-        'switch-binary-button').innerHTML = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>' if show_binary else '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
+    setNumberSystemButton()
+
+
+def setNumberSystemButton():
+    document.getElementById('switch-binary-button').innerHTML = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>' if show_binary else '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
+
+
+def setDefaultNumberSystem():
+    global show_binary
+    ns = window.localStorage.getItem('NumberSystem')
+    console.log(f'Saved number system: {ns}')
+    if not ns:
+        show_binary = True
+    else:
+        if ns == 'bin':
+            show_binary = True
+        elif ns == 'hex':
+            show_binary = False
+    setNumberSystemButton()
 
 
 document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
 document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
+setDefaultNumberSystem()
