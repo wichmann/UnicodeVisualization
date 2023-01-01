@@ -11,6 +11,10 @@ from pyscript import Element
 show_binary = True
 
 
+# entered code point in modal dialog
+entered_unicode_codepoint = ''
+
+
 # categories and their abbreviation come directly from the Unicode standard
 categories = {'Lu': 'Letter, uppercase',
               'Ll': 'Letter, lowercase',
@@ -186,6 +190,21 @@ def setDefaultNumberSystem():
     setNumberSystemButton()
 
 
+def handle_codepoints(event):
+    global entered_unicode_codepoint
+    codepoint = Element('unicode-codepoint').element.value
+    try:
+        if codepoint.startswith('U+') or codepoint.startswith('u+'):
+            entered_unicode_codepoint = chr(int(codepoint[2:], 16))
+        else:
+            entered_unicode_codepoint = chr(int(codepoint, 16))
+    except ValueError as e:
+        entered_unicode_codepoint = ''
+    document.getElementById('found-code-point').innerText = entered_unicode_codepoint
+
+
 document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
+document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handle_codepoints))
 document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
+document.getElementById('copy-character-button').addEventListener('click', fillTextField(entered_unicode_codepoint))
 setDefaultNumberSystem()

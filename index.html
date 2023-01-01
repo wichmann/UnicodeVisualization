@@ -199,16 +199,27 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Input Unicode code points directly...</h5>
+            <h5 class="modal-title" id="InputUnicodeCodepointsModalLabel">Input Unicode code points directly...</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" id="unicode-codepoint" name="unicode-codepoint" maxlength="10"
+            <form class="row g-2">
+              <div class="col-auto">
+                <input type="text" class="form-control my-2" id="unicode-codepoint" name="unicode-codepoint" maxlength="8"
                   placeholder="Unicode Code Points..." value="U+">
-            <button class="btn btn-outline-secondary" type="button" id="add-codepoint-button">Add Code Point</button>
+              </div>
+              <div class="col-3">
+                <div class="text-center display-6" id="found-code-point"></div>
+              </div>
+              <div class="col-auto ms-auto">
+                <button class="btn btn-outline-secondary my-2" type="button" id="remove-codepoint-button"
+                  py-click="Element('unicode-codepoint').element.value = 'U+'; document.getElementById('found-code-point').innerText = ''">🗙</button>
+              </div>
+            </form>
+            <!--button class="btn btn-outline-secondary my-3" type="button" id="add-codepoint-button">Add more code points...</button-->
           </div>
           <div class="modal-footer">
-            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal" py-click="fillTextField('私')">Copy character</button>
+            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Copy character</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
