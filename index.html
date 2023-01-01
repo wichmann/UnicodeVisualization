@@ -53,34 +53,59 @@
             </div>
             <div class="col-auto">
               <span id="examples">
-                <button id="example-button-1" class="btn btn-info" type="submit"
-                  py-click="fillTextField('a')" title="ASCII character positioned in the first 128 characters">a</button>
-                <button id="example-button-2" class="btn btn-info" type="submit"
-                  py-click="fillTextField('ä')" title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding">ä</button>
-                <button id="example-button-3" class="btn btn-info" type="submit"
-                  py-click="fillTextField('ä')" title="Combination of a ASCII character with an Unicode mark (diaeresis)">ä (combined)</button>
-                <button id="example-button-4" class="btn btn-info" type="submit"
-                  py-click="fillTextField('참')" title="Legacy Hangul character, using three bytes in UTF-8 encoding">참</button>
-                <button id="example-button-5" class="btn btn-info" type="submit"
-                  py-click="fillTextField('참')" title="Combined Hangul character consisting of three separate code points">참 (combined)</button>
-                <button id="example-button-7" class="btn btn-info" type="submit"
-                  py-click="fillTextField('𐃅')" title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding">𐃅</button>
-                <button id="example-button-6" class="btn btn-info" type="submit"
-                  py-click="fillTextField('❦')" title="A dingbat (an ornament, used in typesetting) character from the Basic Multilingual Plane (BMP)">❦</button>
-                <button id="example-button-6" class="btn btn-info" type="submit"
-                  py-click="fillTextField('🤓')" title="Simple emoji from the Supplementary Multilingual Plane">🤓</button>
-                <button id="example-button-6" class="btn btn-info" type="submit"
+                <button id="example-button-1" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="ASCII character positioned in the first 128 characters"
+                  py-click="fillTextField('a')">a</button>
+                <button id="example-button-2" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding"
+                  py-click="fillTextField('ä')">ä</button>
+                <button id="example-button-3" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Combination of a ASCII character with an Unicode mark (diaeresis)"
+                  py-click="fillTextField('ä')">ä (combined)</button>
+                <button id="example-button-4" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Legacy Hangul character, using three bytes in UTF-8 encoding"
+                  py-click="fillTextField('참')">참</button>
+                <button id="example-button-5" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Combined Hangul character consisting of three separate code points"
+                  py-click="fillTextField('참')">참 (combined)</button>
+                <button id="example-button-7" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding"
+                  py-click="fillTextField('𐃅')">𐃅</button>
+                <button id="example-button-6" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="A dingbat (an ornament, used in typesetting) character from the Basic Multilingual Plane (BMP)"
+                  py-click="fillTextField('❦')">❦</button>
+                <button id="example-button-6" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Simple emoji from the Supplementary Multilingual Plane"
+                  py-click="fillTextField('🤓')">🤓</button>
+                <button id="example-button-6" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
                   py-click="fillTextField('👩🏾‍🎤')" title="Emoji combining a multiple elements to convey its meaning">👩🏾‍🎤</button>
-                <button id="example-button-8" class="btn btn-info" type="submit"
-                  py-click="fillTextField('द्ध्र्य')" title="Devanagari character combining seven code points to a single grapheme cluster">द्ध्र्य</button>
-                <button id="example-button-9" class="btn btn-info" type="submit"
-                  py-click="fillTextField('ﷺ')" title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding">ﷺ</button>
-                <button id="example-button-9" class="btn btn-info" type="submit"
-                  py-click="fillTextField('שָׁלוֹם')" title="The word 'peace' in hebrew, written right-to-left (RTL)">שָׁלוֹם</button>
+                <button id="example-button-8" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Devanagari character combining seven code points to a single grapheme cluster"
+                  py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
+                <button id="example-button-9" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding"
+                  py-click="fillTextField('ﷺ')">ﷺ</button>
+                <button id="example-button-9" class="btn btn-info"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom"
+                  title="The word 'peace' in hebrew, written right-to-left (RTL)"
+                  py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
+                <!-- More characters: 	👨‍👩‍👦  -->
               </span>
             </div>
             <div class="col-auto ms-auto">
-              <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchNumberSystem(None)">
+              <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchNumberSystem(None)"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Switch between binary and hexadecimal presentation">
                 <div class="font-monospace lh-1">c7</div>
                 <div class="font-monospace lh-1">1e</div>
               </button>
@@ -202,6 +227,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
+  <script>
+    // enable tooltips everywhere (https://getbootstrap.com/docs/5.0/components/tooltips/#example-enable-tooltips-everywhere)
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
   <py-script src="./unicode.py"> </py-script>
 </body>
 
