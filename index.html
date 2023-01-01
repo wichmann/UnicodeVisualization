@@ -106,8 +106,13 @@
             <div class="col-auto ms-auto">
               <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchNumberSystem(None)"
                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Switch between binary and hexadecimal presentation">
-                <div class="font-monospace lh-1">c7</div>
-                <div class="font-monospace lh-1">1e</div>
+                <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
+                <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
+              </button>
+              <button id="show-unicode-input-button" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#unicodeInputModal"
+                data-bs-placement="bottom" title="Open window to directly input Unicode code points">
+                <div class="font-monospace lh-1">U+...</div>
+                <div class="font-monospace lh-1">U+...</div>
               </button>
             </div>
           </div>
@@ -189,6 +194,28 @@
           target="_blank">https://github.com/wichmann/UnicodeVisualization</a></p>
     </div>
 
+    <!-- Modal window to input Unicode code points to get the corresponding grapheme cluster -->
+    <div class="modal fade" id="unicodeInputModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Input Unicode code points directly...</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" id="unicode-codepoint" name="unicode-codepoint" maxlength="10"
+                  placeholder="Unicode Code Points..." value="U+">
+            <button class="btn btn-outline-secondary" type="button" id="add-codepoint-button">Add Code Point</button>
+          </div>
+          <div class="modal-footer">
+            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal" py-click="fillTextField('私')">Copy character</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Template for creating rows of character information -->
     <template id="character-template">
       <div class="character">
         <div class="row my-3">
@@ -233,6 +260,8 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+    // handle tooltip for button to open modal window separately
+    var tooltipModal = new bootstrap.Tooltip(document.getElementById('show-unicode-input-button'));
   </script>
   <py-script src="./unicode.py"> </py-script>
 </body>
