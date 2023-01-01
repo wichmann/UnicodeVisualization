@@ -19,5 +19,7 @@ This web app is released under the MIT License.
 
 Unicode Visualization runs inside the web browser using PyScript [1] based on Pyodide [2].
 
+The web app uses the "Detective" emoji from the Noto Emoji Font licensed under the Open Font License.
+
 [1] https://pyscript.net
 [2] https://pyodide.org
