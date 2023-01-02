@@ -206,21 +206,23 @@
             <form class="row g-2">
               <div class="col-auto">
                 <input type="text" class="form-control my-2" id="unicode-codepoint" name="unicode-codepoint" maxlength="8"
-                  placeholder="Unicode Code Points..." value="U+">
+                  placeholder="Unicode Code Points..." value="U+" autofocus>
               </div>
               <div class="col-3">
                 <div class="text-center display-6" id="found-code-point"></div>
               </div>
               <div class="col-auto ms-auto">
                 <button class="btn btn-outline-secondary my-2" type="button" id="remove-codepoint-button"
-                  py-click="Element('unicode-codepoint').element.value = 'U+'; document.getElementById('found-code-point').innerText = ''">🗙</button>
+                  py-click="clearCodepoint()">🗙</button>
               </div>
             </form>
             <!--button class="btn btn-outline-secondary my-3" type="button" id="add-codepoint-button">Add more code points...</button-->
           </div>
           <div class="modal-footer">
-            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Copy character</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="copy-character-button" type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal" py-click="clearCodepoint()">Copy character</button>
+            <button id="close-modal-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              py-click="clearCodepoint()">Close</button>
           </div>
         </div>
       </div>

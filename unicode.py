@@ -131,7 +131,7 @@ def getCharacterEncoding(c):
     return s
 
 
-def handle_glyph(event):
+def handleGlyph(event):
     clearCharacters()
     glyph = Element('glyph').element.value
     character_list = Element('character-list')
@@ -149,7 +149,7 @@ def fillTextField(glyph):
     console.log(glyph)
     input_field = Element('glyph')
     input_field.element.value = glyph
-    handle_glyph(None)
+    handleGlyph(None)
 
 
 def clearCharacters(event=None):
@@ -168,7 +168,7 @@ def switchNumberSystem(event):
         window.localStorage.setItem('NumberSystem', 'bin')
     else:
         window.localStorage.setItem('NumberSystem', 'hex')
-    handle_glyph(None)
+    handleGlyph(None)
     setNumberSystemButton()
 
 
@@ -190,7 +190,7 @@ def setDefaultNumberSystem():
     setNumberSystemButton()
 
 
-def handle_codepoints(event):
+def handleCodepoints(event):
     global entered_unicode_codepoint
     codepoint = Element('unicode-codepoint').element.value
     try:
@@ -203,8 +203,13 @@ def handle_codepoints(event):
     document.getElementById('found-code-point').innerText = entered_unicode_codepoint
 
 
-document.getElementById('glyph').addEventListener('input', create_proxy(handle_glyph))
-document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handle_codepoints))
+def clearCodepoint():
+    Element('unicode-codepoint').element.value = 'U+'
+    document.getElementById('found-code-point').innerText = ''
+
+
+document.getElementById('glyph').addEventListener('input', create_proxy(handleGlyph))
+document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handleCodepoints))
 document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
-document.getElementById('copy-character-button').addEventListener('click', fillTextField(entered_unicode_codepoint))
+document.getElementById('copy-character-button').addEventListener('click', create_proxy(lambda x: fillTextField(entered_unicode_codepoint)))
 setDefaultNumberSystem()
