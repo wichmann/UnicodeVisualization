@@ -137,12 +137,16 @@ def handleGlyph(event):
     character_list = Element('character-list')
     character_template = Element('character-template').select('.character', from_content=True)
     for c in glyph:
-        console.log(f"Character: {unicodedata.name(c)}")
-        new_character = character_template.clone(f'character-{ord(c):06}')
-        new_character.select('.character-info').element.innerHTML = getCharacterInformation(c)
-        new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
-        new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
-        character_list.element.appendChild(new_character.element)
+        try:
+            console.log(f"Character: {unicodedata.name(c)}")
+            new_character = character_template.clone(f'character-{ord(c):06}')
+            new_character.select('.character-info').element.innerHTML = getCharacterInformation(c)
+            new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
+            new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
+            character_list.element.appendChild(new_character.element)
+        except ValueError as e:
+            # TODO: Add error message for user in UI.
+            pass
 
 
 def fillTextField(glyph):
@@ -204,6 +208,7 @@ def handleCodepoints(event):
 
 
 def clearCodepoint():
+    entered_unicode_codepoint = ''
     Element('unicode-codepoint').element.value = 'U+'
     document.getElementById('found-code-point').innerText = ''
 
