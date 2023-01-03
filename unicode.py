@@ -132,6 +132,9 @@ def getCharacterEncoding(c):
 
 
 def handleGlyph(event):
+    """
+    Show all information about the current glyphs in the input text field.
+    """
     clearCharacters()
     glyph = Element('glyph').element.value
     character_list = Element('character-list')
@@ -145,11 +148,15 @@ def handleGlyph(event):
             new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
             character_list.element.appendChild(new_character.element)
         except ValueError as e:
+            console.log('Not existing character chosen.')
             # TODO: Add error message for user in UI.
-            pass
+            #toastLiveExample = document.getElementById('liveToast')
+            #toast = js.bootstrap.Toast(toastLiveExample)
+            #toast.show()
 
 
 def fillTextField(glyph):
+    # get a glyph (grapheme cluster) and put it in the input text field
     console.log(glyph)
     input_field = Element('glyph')
     input_field.element.value = glyph
@@ -158,11 +165,17 @@ def fillTextField(glyph):
 
 def clearCharacters(event=None):
     if event:
+        # clear the input text field if call came from clear button
         input_field = Element('glyph')
         input_field.element.value = ''
+    # clear all HTML elements showing information about previous characters
     character_list = Element('character-list')
     character_list.clear()
     character_list.element.innerHTML = ''
+    # hide all previously shown tooltips to prevent one being still open after
+    # clicking an example button
+    for t in js.tooltipList:
+        t.hide()
 
 
 def switchNumberSystem(event):
@@ -177,10 +190,15 @@ def switchNumberSystem(event):
 
 
 def setNumberSystemButton():
-    document.getElementById('switch-binary-button').innerHTML = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>' if show_binary else '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
+    # set button text depending on the global variable 'show_binary'
+    hexadecimal_button_text = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>'
+    binary_button_text = '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
+    document.getElementById('switch-binary-button').innerHTML = hexadecimal_button_text if show_binary else binary_button_text
 
 
 def setDefaultNumberSystem():
+    # evaluate parameter 'NumberSystem' from local storage in the browser and
+    # set global variable 'show_binary' accordingly
     global show_binary
     ns = window.localStorage.getItem('NumberSystem')
     console.log(f'Saved number system: {ns}')
