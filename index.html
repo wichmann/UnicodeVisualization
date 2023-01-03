@@ -45,66 +45,66 @@
         <div class="card-body">
           <h4 class="card-title">Input a Unicode Glyph ('Character') or Choose an Example</h4>
           <div class="row">
-            <div class="col-auto">
+            <div class="col-auto my-2">
               <div class="input-group w-75">
                 <input type="text" class="form-control" id="glyph" name="glyph" maxlength="10"
                   placeholder="Unicode Glyphs...">
                 <button class="btn btn-outline-secondary" type="button" id="clear-button">🗙</button>
               </div>
             </div>
-            <div class="col-auto">
+            <div class="col-auto my-2">
               <span id="examples">
-                <button id="example-button-1" class="btn btn-info"
+                <button id="example-button-1" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="ASCII character positioned in the first 128 characters"
                   py-click="fillTextField('a')">a</button>
-                <button id="example-button-2" class="btn btn-info"
+                <button id="example-button-2" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding"
                   py-click="fillTextField('ä')">ä</button>
-                <button id="example-button-3" class="btn btn-info"
+                <button id="example-button-3" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Combination of a ASCII character with an Unicode mark (diaeresis)"
                   py-click="fillTextField('ä')">ä (combined)</button>
-                <button id="example-button-4" class="btn btn-info"
+                <button id="example-button-4" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Legacy Hangul character, using three bytes in UTF-8 encoding"
                   py-click="fillTextField('참')">참</button>
-                <button id="example-button-5" class="btn btn-info"
+                <button id="example-button-5" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Combined Hangul character consisting of three separate code points"
                   py-click="fillTextField('참')">참 (combined)</button>
-                <button id="example-button-7" class="btn btn-info"
+                <button id="example-button-7" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding"
                   py-click="fillTextField('𐃅')">𐃅</button>
-                <button id="example-button-6" class="btn btn-info"
+                <button id="example-button-6" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="A dingbat (an ornament, used in typesetting) character from the Basic Multilingual Plane (BMP)"
                   py-click="fillTextField('❦')">❦</button>
-                <button id="example-button-6" class="btn btn-info"
+                <button id="example-button-6" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Simple emoji from the Supplementary Multilingual Plane"
                   py-click="fillTextField('🤓')">🤓</button>
-                <button id="example-button-6" class="btn btn-info"
+                <button id="example-button-6" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   py-click="fillTextField('👩🏾‍🎤')" title="Emoji combining a multiple elements to convey its meaning">👩🏾‍🎤</button>
-                <button id="example-button-8" class="btn btn-info"
+                <button id="example-button-8" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Devanagari character combining seven code points to a single grapheme cluster"
                   py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
-                <button id="example-button-9" class="btn btn-info"
+                <button id="example-button-9" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding"
                   py-click="fillTextField('ﷺ')">ﷺ</button>
-                <button id="example-button-9" class="btn btn-info"
+                <button id="example-button-9" class="btn btn-info my-1"
                   data-bs-toggle="tooltip" data-bs-placement="bottom"
                   title="The word 'peace' in hebrew, written right-to-left (RTL)"
                   py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
                 <!-- More characters: 	👨‍👩‍👦  -->
               </span>
             </div>
-            <div class="col-auto ms-auto">
+            <div class="col-auto my-2 ms-auto">
               <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchNumberSystem(None)"
                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Switch between binary and hexadecimal presentation">
                 <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
@@ -183,8 +183,8 @@
               href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/"
               target="_blank">The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About
               Unicode and Character Sets (No Excuses!)</a></li>
-          <li><a href="https://www.compart.com/de/unicode/" target="_blank">Information about planes, categories and
-              characters (german)</a></li>
+          <li><a href="https://www.compart.com/de/unicode/" target="_blank">Information about Planes, Categories and
+              Characters (german)</a></li>
           <li><a href="https://utf8everywhere.org" target="_blank">UTF-8 Everywhere (Manifesto)</a></li>
           <li><a href="https://unicodebook.readthedocs.io/index.html" target="_blank">Programming with Unicode</a></li>
         </ul>
@@ -201,7 +201,8 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="InputUnicodeCodepointsModalLabel">Input Unicode code points directly...</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button id="close-modal-button" type="button" class="btn-close" data-bs-dismiss="modal"
+              py-click="clearCodepoint()" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="row g-2">
@@ -222,8 +223,6 @@
           <div class="modal-footer">
             <button id="copy-character-button" type="button" class="btn btn-secondary"
               data-bs-dismiss="modal" py-click="clearCodepoint()">Copy character</button>
-            <button id="close-modal-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-              py-click="clearCodepoint()">Close</button>
           </div>
         </div>
       </div>
