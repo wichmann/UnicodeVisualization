@@ -4,6 +4,7 @@ import unicodedata
 
 from js import document, console, window
 from pyodide.ffi import create_proxy
+from pyodide.code import run_js
 from pyscript import Element
 
 
@@ -149,10 +150,16 @@ def handleGlyph(event):
             character_list.element.appendChild(new_character.element)
         except ValueError as e:
             console.log('Not existing character chosen.')
-            # TODO: Add error message for user in UI.
+            # TODO: Handle this directly in Python!
+            run_js("""
+            const toastLiveExample = document.getElementById('showErrorToast')
+            const toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+            """)
             #toastLiveExample = document.getElementById('liveToast')
             #toast = js.bootstrap.Toast(toastLiveExample)
             #toast.show()
+            clearCharacters(True)
 
 
 def fillTextField(glyph):
@@ -225,14 +232,27 @@ def handleCodepoints(event):
     document.getElementById('found-code-point').innerText = entered_unicode_codepoint
 
 
+# prevent the page from reloading when pressing enter in the modal dialog
+def handleEnter(event):
+    if event.key == 'Enter':
+        event.preventDefault()
+        document.getElementById('copy-character-button').click()
+
+
 def clearCodepoint():
     entered_unicode_codepoint = ''
     Element('unicode-codepoint').element.value = 'U+'
     document.getElementById('found-code-point').innerText = ''
 
 
+# handle events for main input text field
 document.getElementById('glyph').addEventListener('input', create_proxy(handleGlyph))
-document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handleCodepoints))
 document.getElementById('clear-button').addEventListener('click', create_proxy(clearCharacters))
+
+# handle events for modal dialog
+document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handleCodepoints))
+document.getElementById('unicode-codepoint').addEventListener('keypress', create_proxy(handleEnter))
 document.getElementById('copy-character-button').addEventListener('click', create_proxy(lambda x: fillTextField(entered_unicode_codepoint)))
+
+# load chosen number system from local storage and set button text
 setDefaultNumberSystem()
