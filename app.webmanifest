@@ -1,11 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "UnicodeVisualization",
+  "name": "Unicode Visualization",
   "short_name": "UnicodeVisualization",
-  "start_url": ".",
+  "start_url": "index.html",
   "display": "standalone",
   "description": "Single page web app to visualize Unicode glyphs, characters and code points.",
+  "background_color": "#dddddd",
+  "theme_color": "#448aff",
+  "lang": "en",
+  "orientation": "portrait-primary",
   "icons": [
+    {
+      "src": "./images/app_icon_512_maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./images/app_icon_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "./images/app_icon_1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
     {
       "src": "./images/app_icon.png",
       "sizes": "144x144",
