@@ -68,8 +68,8 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('install', (event) => {
   event.waitUntil(
     addResourcesToCache([
-      '/',
-      '/index.html',
+      '.',
+      'index.html',
       'src/pwa.js',
       'unicode.py',
     ])
