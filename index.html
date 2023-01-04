@@ -49,7 +49,7 @@
               <div class="input-group w-75">
                 <input type="text" class="form-control" id="glyph" name="glyph" maxlength="10"
                   placeholder="Unicode Glyphs...">
-                <button class="btn btn-outline-secondary" type="button" id="clear-button">🗙</button>
+                <button class="btn btn-outline-secondary" type="button" id="clear-button"><strong>⨉</strong></button>
               </div>
             </div>
             <div class="col-auto my-2">
@@ -105,7 +105,7 @@
               </span>
             </div>
             <div class="col-auto my-2 ms-auto">
-              <button id="switch-binary-button" class="btn btn-dark" type="submit" py-click="switchNumberSystem(None)"
+              <button id="switch-binary-button" class="btn btn-dark" py-click="switchNumberSystem(None)"
                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Switch between binary and hexadecimal presentation">
                 <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
                 <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
@@ -208,14 +208,14 @@
             <form class="row g-2">
               <div class="col-auto">
                 <input type="text" class="form-control my-2" id="unicode-codepoint" name="unicode-codepoint" maxlength="8"
-                  placeholder="Unicode Code Points..." value="U+" autofocus>
+                  placeholder="Unicode Code Points..." value="U+">
               </div>
               <div class="col-3">
                 <div class="text-center display-6" id="found-code-point"></div>
               </div>
               <div class="col-auto ms-auto">
                 <button class="btn btn-outline-secondary my-2" type="button" id="remove-codepoint-button"
-                  py-click="clearCodepoint()">🗙</button>
+                  py-click="clearCodepoint()"><strong>⨉</strong></button>
               </div>
             </form>
             <!--button class="btn btn-outline-secondary my-3" type="button" id="add-codepoint-button">Add more code points...</button-->
