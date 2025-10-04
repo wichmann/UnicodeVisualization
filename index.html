@@ -4,15 +4,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#448aff"/>
   <title>Unicode Visualization</title>
+
   <link rel="manifest" href="./app.webmanifest">
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
   <link rel="apple-touch-icon" href="./images/app_icon_apple.png">
-  <meta name="theme-color" content="#448aff" />
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
+  <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script> 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
   <style>
     a:link {
       color: black;
@@ -57,51 +59,39 @@
             <div class="col-auto my-2">
               <span id="examples">
                 <button id="example-button-1" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="ASCII character positioned in the first 128 characters"
-                  py-click="fillTextField('a')">a</button>
+                  data-bs-placement="bottom" title="ASCII character positioned in the first 128 characters">a</button>
                 <button id="example-button-2" class="btn btn-info my-1" data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
-                  title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding"
-                  py-click="fillTextField('ä')">ä</button>
+                  title="Character from ISO 8859-15 charset, an extension of ASCII, using two bytes in UTF-8 encoding">ä</button>
                 <button id="example-button-3" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="Combination of a ASCII character with an Unicode mark (diaeresis)"
-                  py-click="fillTextField('ä')">ä (combined)</button>
+                  data-bs-placement="bottom" title="Combination of a ASCII character with an Unicode mark (diaeresis)">ä (combined)</button>
                 <button id="example-button-4" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="Legacy Hangul character, using three bytes in UTF-8 encoding"
-                  py-click="fillTextField('참')">참</button>
+                  data-bs-placement="bottom" title="Legacy Hangul character, using three bytes in UTF-8 encoding">참</button>
                 <button id="example-button-5" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="Combined Hangul character consisting of three separate code points"
-                  py-click="fillTextField('참')">참 (combined)</button>
+                  data-bs-placement="bottom" title="Combined Hangul character consisting of three separate code points">참 (combined)</button>
                 <button id="example-button-7" class="btn btn-info my-1" data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
-                  title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding"
-                  py-click="fillTextField('𐃅')">𐃅</button>
+                  title="Character from the ancient Linear B script, using four bytes in UTF-8 encoding">𐃅</button>
                 <button id="example-button-6" class="btn btn-info my-1" data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
-                  title="A dingbat (an ornament, used in typesetting) character from the Basic Multilingual Plane (BMP)"
-                  py-click="fillTextField('❦')">❦</button>
-                <button id="example-button-6" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="Simple emoji from the Supplementary Multilingual Plane"
-                  py-click="fillTextField('🤓')">🤓</button>
-                <button id="example-button-6" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" py-click="fillTextField('👩🏾‍🎤')"
-                  title="Emoji combining a multiple elements to convey its meaning">👩🏾‍🎤</button>
+                  title="A dingbat (an ornament, used in typesetting) character from the Basic Multilingual Plane (BMP)">❦</button>
                 <button id="example-button-8" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Devanagari character combining seven code points to a single grapheme cluster"
-                  py-click="fillTextField('द्ध्र्य')">द्ध्र्य</button>
+                  data-bs-placement="bottom" title="Simple emoji from the Supplementary Multilingual Plane">🤓</button>
                 <button id="example-button-9" class="btn btn-info my-1" data-bs-toggle="tooltip"
+                  data-bs-placement="bottom" title="Emoji combining a multiple elements to convey its meaning">👩🏾‍🎤</button>
+                <button id="example-button-10" class="btn btn-info my-1" data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
-                  title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding"
-                  py-click="fillTextField('ﷺ')">ﷺ</button>
-                <button id="example-button-9" class="btn btn-info my-1" data-bs-toggle="tooltip"
-                  data-bs-placement="bottom" title="The word 'peace' in hebrew, written right-to-left (RTL)"
-                  py-click="fillTextField('שָׁלוֹם')">שָׁלוֹם</button>
+                  title="Devanagari character combining seven code points to a single grapheme cluster">द्ध्र्य</button>
+                <button id="example-button-11" class="btn btn-info my-1" data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Muslim ligature consisting of a single code point, using three bytes in UTF-8 encoding">ﷺ</button>
+                <button id="example-button-12" class="btn btn-info my-1" data-bs-toggle="tooltip"
+                  data-bs-placement="bottom" title="The word 'peace' in hebrew, written right-to-left (RTL)">שָׁלוֹם</button>
                 <!-- More characters: 	👨‍👩‍👦  -->
               </span>
             </div>
             <div class="col-auto my-2 ms-auto">
-              <button id="switch-binary-button" class="btn btn-dark" py-click="switchNumberSystem(None)"
+              <button id="switch-binary-button" class="btn btn-dark"
                 data-bs-toggle="tooltip" data-bs-placement="bottom"
                 title="Switch between binary and hexadecimal presentation">
                 <div class="font-monospace lh-1">&nbsp;&nbsp;</div>
@@ -197,7 +187,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="InputUnicodeCodepointsModalLabel">Input Unicode code points directly...</h5>
             <button id="close-modal-button" type="button" class="btn-close" data-bs-dismiss="modal"
-              py-click="clearCodepoint()" aria-label="Close"></button>
+              aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="row g-2">
@@ -209,15 +199,13 @@
                 <div class="text-center display-6" id="found-code-point"></div>
               </div>
               <div class="col-auto ms-auto">
-                <button class="btn btn-outline-secondary my-2" type="button" id="remove-codepoint-button"
-                  py-click="clearCodepoint()"><strong>⨉</strong></button>
+                <button class="btn btn-outline-secondary my-2" type="button" id="remove-codepoint-button"><strong>⨉</strong></button>
               </div>
             </form>
             <!--button class="btn btn-outline-secondary my-3" type="button" id="add-codepoint-button">Add more code points...</button-->
           </div>
           <div class="modal-footer">
-            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-              py-click="clearCodepoint()">Copy character</button>
+            <button id="copy-character-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Copy character</button>
           </div>
         </div>
       </div>
@@ -270,9 +258,6 @@
     </template>
   </div>
 
-  <py-config>
-  </py-config>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
@@ -285,7 +270,7 @@
     // handle tooltip for button to open modal window separately
     var tooltipModal = new bootstrap.Tooltip(document.getElementById('show-unicode-input-button'));
   </script>
-  <py-script src="./unicode.py"> </py-script>
+  <script type="py" src="unicode.py" config="pyscript.toml"></script>
   <script src="src/pwa.js"></script>
 </body>
 

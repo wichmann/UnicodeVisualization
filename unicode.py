@@ -1,12 +1,17 @@
-# info: https://realpython.com/pyscript-python-in-browser/#disclaimer-pyscript-is-an-experimental-project
+"""
+Evaluate Unicode characters and output its data on PWA.
+
+Info:
+* https://realpython.com/pyscript-python-in-browser/#disclaimer-pyscript-is-an-experimental-project
+"""
 
 import unicodedata
 
-from js import document, console, window
-from pyodide.ffi import create_proxy
+from js import document, console, window, tooltipList
 from pyodide.code import run_js
-from pyscript import Element
-
+from pyscript.ffi import create_proxy, is_none
+from pyscript import document
+from pyscript.web import page, when
 
 # global flag for choosing binary or hex representation
 show_binary = True
@@ -67,7 +72,8 @@ def getCharacterCodePoints(c):
     else:
         bmp = ''
     info = f'<p>Name: {unicodedata.name(c)}</p><p><a href="https://www.unicode.org/versions/Unicode15.0.0/ch04.pdf#G134153" target="_blank">Category</a>: {categories[unicodedata.category(c)]}</p>'
-    norm = '<p>Code Point is normalized according to the <a href="https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization" target="_blank">Normalization Form Canonical Decomposition (NFD)</a>.</p>' if unicodedata.is_normalized('NFD', c) else ''
+    norm = '<p>Code Point is normalized according to the <a href="https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization" target="_blank">Normalization Form Canonical Decomposition (NFD)</a>.</p>' if unicodedata.is_normalized(
+        'NFD', c) else ''
     return cp + info + bmp + norm
 
 
@@ -132,60 +138,69 @@ def getCharacterEncoding(c):
     return s
 
 
-def handleGlyph(event):
+def handleGlyph(_):
     """
     Show all information about the current glyphs in the input text field.
     """
     clearCharacters()
-    glyph = Element('glyph').element.value
-    character_list = Element('character-list')
-    character_template = Element('character-template').select('.character', from_content=True)
-    for c in glyph:
+    glyph = page["#glyph"][0]
+    console.log(f'Processing glyph: {glyph.value}')
+    # character_list = Element('character-list')
+    character_list = page["#character-list"][0]
+    # character_template = Element('character-template').select('.character', from_content=True)
+    #character_template = page['#character-template']['.character']
+    character_template = page['#character-template'][0].content.querySelector('.character')
+    for c in glyph.value:
+        console.log(f'Processing next character...')
         try:
-            console.log(f"Character: {unicodedata.name(c)}")
-            new_character = character_template.clone(f'character-{ord(c):06}')
-            new_character.select('.character-info').element.innerHTML = getCharacterInformation(c)
-            new_character.select('.codepoint-info').element.innerHTML = getCharacterCodePoints(c)
-            new_character.select('.encoding-info').element.innerHTML = getCharacterEncoding(c)
-            character_list.element.appendChild(new_character.element)
+            console.log(f'Character: {unicodedata.name(c)}')
+            new_character = character_template.cloneNode(True) # .clone(f'character-{ord(c):06}')
+            new_character.querySelector('.character-info').innerHTML = getCharacterInformation(c)
+            new_character.querySelector('.codepoint-info').innerHTML = getCharacterCodePoints(c)
+            new_character.querySelector('.encoding-info').innerHTML = getCharacterEncoding(c)
+            character_list.appendChild(new_character)
         except ValueError as e:
             console.log('Not existing character chosen.')
+            console.log(e)
             # TODO: Handle this directly in Python!
-            run_js("""
-            const toastLiveExample = document.getElementById('showErrorToast')
-            const toast = new bootstrap.Toast(toastLiveExample)
-            toast.show()
-            """)
-            #toastLiveExample = document.getElementById('liveToast')
-            #toast = js.bootstrap.Toast(toastLiveExample)
+            #run_js("""
+            #const toastLiveExample = document.getElementById('showErrorToast')
+            #const toast = new bootstrap.Toast(toastLiveExample)
             #toast.show()
+            #""")
+            # toastLiveExample = page['#liveToast']
+            # toast = js.bootstrap.Toast(toastLiveExample)
+            # toast.show()
             clearCharacters(True)
 
 
 def fillTextField(glyph):
     # get a glyph (grapheme cluster) and put it in the input text field
     console.log(glyph)
-    input_field = Element('glyph')
-    input_field.element.value = glyph
+    # input_field = Element('glyph')
+    input_field = page["#glyph"][0]
+    input_field.value = glyph
     handleGlyph(None)
 
 
 def clearCharacters(event=None):
     if event:
         # clear the input text field if call came from clear button
-        input_field = Element('glyph')
-        input_field.element.value = ''
+        # input_field = Element('glyph')
+        input_field = page["#glyph"][0]
+        input_field.value = ''
     # clear all HTML elements showing information about previous characters
-    character_list = Element('character-list')
-    character_list.clear()
-    character_list.element.innerHTML = ''
+    # character_list = Element('character-list')
+    character_list = page["#character-list"][0]
+    character_list.innerHTML = ''
+    # character_list.html = ''
     # hide all previously shown tooltips to prevent one being still open after
     # clicking an example button
-    for t in js.tooltipList:
+    for t in tooltipList:
         t.hide()
 
 
-def switchNumberSystem(event):
+def switchNumberSystem(_):
     global show_binary
     show_binary = not show_binary
     if show_binary:
@@ -197,7 +212,9 @@ def switchNumberSystem(event):
 
 
 def setNumberSystemButton():
-    # set button text depending on the global variable 'show_binary'
+    """
+    Set button text depending on the global variable 'show_binary'.
+    """
     hexadecimal_button_text = '<div class="font-monospace lh-1">c7</div><div class="font-monospace lh-1">1e</div>'
     binary_button_text = '<div class="font-monospace lh-1">10</div><div class="font-monospace lh-1">01</div>'
     document.getElementById('switch-binary-button').innerHTML = hexadecimal_button_text if show_binary else binary_button_text
@@ -209,7 +226,7 @@ def setDefaultNumberSystem():
     global show_binary
     ns = window.localStorage.getItem('NumberSystem')
     console.log(f'Saved number system: {ns}')
-    if not ns:
+    if is_none(ns):
         show_binary = True
     else:
         if ns == 'bin':
@@ -221,27 +238,33 @@ def setDefaultNumberSystem():
 
 def handleCodepoints(event):
     global entered_unicode_codepoint
-    codepoint = Element('unicode-codepoint').element.value
+    # codepoint = Element('unicode-codepoint').value
+    codepoint = page["#unicode-codepoint"][0].value
     try:
         if codepoint.startswith('U+') or codepoint.startswith('u+'):
             entered_unicode_codepoint = chr(int(codepoint[2:], 16))
         else:
             entered_unicode_codepoint = chr(int(codepoint, 16))
     except ValueError as e:
+        console.log(e)
         entered_unicode_codepoint = ''
     document.getElementById('found-code-point').innerText = entered_unicode_codepoint
 
 
-# prevent the page from reloading when pressing enter in the modal dialog
 def handleEnter(event):
+    """
+    Prevent the page from reloading when pressing enter in the modal dialog.
+    """
     if event.key == 'Enter':
         event.preventDefault()
         document.getElementById('copy-character-button').click()
 
 
 def clearCodepoint():
+    global entered_unicode_codepoint
     entered_unicode_codepoint = ''
-    Element('unicode-codepoint').element.value = 'U+'
+    codepoint = page["#unicode-codepoint"][0]
+    codepoint.value = 'U+'
     document.getElementById('found-code-point').innerText = ''
 
 
@@ -252,7 +275,72 @@ document.getElementById('clear-button').addEventListener('click', create_proxy(c
 # handle events for modal dialog
 document.getElementById('unicode-codepoint').addEventListener('input', create_proxy(handleCodepoints))
 document.getElementById('unicode-codepoint').addEventListener('keypress', create_proxy(handleEnter))
-document.getElementById('copy-character-button').addEventListener('click', create_proxy(lambda x: fillTextField(entered_unicode_codepoint)))
+
+# handle example buttons
+@when("click", "#example-button-1")
+def insert_example_char_1(e):
+    fillTextField('a')
+
+@when("click", "#example-button-2")
+def insert_example_char_2(e):
+    fillTextField('ä')
+
+@when("click", "#example-button-3")
+def insert_example_char_3(e):
+    fillTextField('ä')
+
+@when("click", "#example-button-4")
+def insert_example_char_4(e):
+    fillTextField('참')
+
+@when("click", "#example-button-5")
+def insert_example_char_5(e):
+    fillTextField('참')
+
+@when("click", "#example-button-6")
+def insert_example_char_6(e):
+    fillTextField('❦')
+
+@when("click", "#example-button-7")
+def insert_example_char_7(e):
+    fillTextField('𐃅')
+
+@when("click", "#example-button-8")
+def insert_example_char_8(e):
+    fillTextField('🤓')
+
+@when("click", "#example-button-9")
+def insert_example_char_9(e):
+    fillTextField('👩🏾‍🎤')
+
+@when("click", "#example-button-10")
+def insert_example_char_10(e):
+    fillTextField('द्ध्र्य')
+
+@when("click", "#example-button-11")
+def insert_example_char_11(e):
+    fillTextField('ﷺ')
+
+@when("click", "#example-button-12")
+def insert_example_char_12(e):
+    fillTextField('שָׁלוֹם')
+
+@when("click", "#switch-binary-button")
+def switch_button_handler(e):
+    switchNumberSystem(None)
+
+@when("click", "#close-modal-button")
+def close_modal_handler(e):
+    clearCodepoint()
+
+@when("click", "#remove-codepoint-button")
+def remove_codepoint_handler(e):
+    clearCodepoint()
+
+@when("click", "#copy-character-button")
+def copy_character_handler(e):
+    fillTextField(entered_unicode_codepoint)
+    clearCodepoint()
 
 # load chosen number system from local storage and set button text
 setDefaultNumberSystem()
