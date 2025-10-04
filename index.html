@@ -124,7 +124,7 @@
         <h4 class="card-title">Unicode Information</h4>
         <p>"Unicode is an information technology standard for the consistent encoding, representation, and handling of
           text expressed in most of the world's writing systems. The standard, which is maintained by the Unicode
-          Consortium, defines as of the current version (15.0) 149,186 characters covering 161 modern and historic
+          Consortium, defines as of the <a target="_blank" href="https://blog.unicode.org/2025/09/unicode-170-release-announcement.html">current version (17.0)</a> 159,801 characters covering 172 modern and historic
           scripts, as well as symbols, emoji (including in colors), and non-visual control and formatting codes.</p>
         <p>The Unicode Standard, however, includes more than just the base code. Alongside the character encodings, the
           Consortium's official publication includes a wide variety of details about the scripts and how to display
@@ -145,28 +145,24 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
           <mrow>
             <mn>17</mn>
-            <mrow>
-              <mi mathvariant="italic">planes</mi>
-              <mo stretchy="false">⋅</mo>
-              <mn>65,536</mn>
-            </mrow>
-            <mi mathvariant="italic">code</mi>
-            <mrow>
-              <mi mathvariant="italic">points</mi>
-              <mo stretchy="false">−</mo>
-              <mn>2,048</mn>
-            </mrow>
-            <mrow>
-              <mi mathvariant="italic">surrogates</mi>
-              <mo stretchy="false">−</mo>
-              <mn>66</mn>
-            </mrow>
-            <mrow>
-              <mi mathvariant="italic">noncharacters</mi>
-              <mo stretchy="false">=</mo>
-              <mn>1,111,998</mn>
-            </mrow>
-            <mi mathvariant="italic">characters</mi>
+            <mo rspace='thinmathspace'>&InvisibleTimes;</mo>
+            <mi mathvariant='normal' class="MathML-Unit">Planes</mi>
+            <mo rspace='thickmathspace'>⋅</mo>
+            <mn>65,536</mn>
+            <mo rspace='thinmathspace'>&InvisibleTimes;</mo>
+            <mi class="MathML-Unit">Codepoints</mi>
+            <mo>−</mo>
+            <mn>2,048</mn>
+            <mo rspace='thinmathspace'>&InvisibleTimes;</mo>
+            <mi class="MathML-Unit">Surrogates</mi>
+            <mo>−</mo>
+            <mn>66</mn>
+            <mo rspace='thinmathspace'>&InvisibleTimes;</mo>
+            <mi class="MathML-Unit">Noncharacters</mi>
+            <mo>=</mo>
+            <mn>1,111,998</mn>
+            <mo rspace='thinmathspace'>&InvisibleTimes;</mo>
+            <mi class="MathML-Unit">Characters</mi>
           </mrow>
         </math>
       </div>
@@ -236,7 +232,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          You selected a not supported character!
+          You selected a character that is not supported!
         </div>
       </div>
     </div>
